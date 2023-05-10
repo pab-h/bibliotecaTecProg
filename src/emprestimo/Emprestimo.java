@@ -8,21 +8,21 @@ import publicacao.Publicacao;
 import publicacao.Revista;
 
 public final class Emprestimo {
-	public Publicacao publicacao;
-	public Cliente cliente;
-	public int devolucao;	
-	public double custo;
+	private Publicacao publicacao;
+	private Cliente cliente;
+	private int devolucao;	
+	private double custo;
 	
 	public Emprestimo(Publicacao publicacao, Cliente cliente, int devolucao) throws Error {
 		this.publicacao = publicacao;
 		this.cliente = cliente;
 		this.devolucao = devolucao;
 		
-		if (this.publicacao.exemplares == 0) {
-			throw new Error("Nâo há exemplares suficiente de " + this.publicacao.titulo);
+		if (!this.publicacao.temExemplares()) {
+			throw new Error("Nâo há exemplares suficiente de " + this.publicacao.getTitulo());
 		}
 		
-		if (this.cliente.getEmprestimosFeitos().size() > this.cliente.getMaximoEmprestimo()) {
+		if (this.cliente.maximoEmprestimoAtingido()) {
 			throw new Error(this.cliente.getNome() + " execedeu o número de emprestimos máximos");
 		}
 		
@@ -50,18 +50,18 @@ public final class Emprestimo {
 			throw new Error("O cliente" + this.cliente.getNome() + " deve doar um livro!");
 		}
 		
-		if (this.cliente.getTps() - this.custo <= 0) {
+		if (!this.cliente.temTpsSuficientes(this.custo)) {
 			throw new Error("O cliente" + this.cliente.getNome() + " nâo tem tps o suficiente");
 		}
 		
-		this.publicacao.exemplares--;
+		this.publicacao.setExamplares(this.publicacao.getExamplares() - 1);
 		this.cliente.setTps(this.cliente.getTps() - this.custo);
 		
 	}
 	
 	@Override
 	public String toString() {
-		return this.cliente.getNome() + "; " + this.publicacao.titulo + "; " + this.custo + "; " + this.devolucao;
+		return this.cliente.getNome() + "; " + this.publicacao.getTitulo() + "; " + this.custo + "; " + this.devolucao;
 	}
 	
 }

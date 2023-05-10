@@ -32,7 +32,7 @@ public final class Biblioteca {
 	
 	public Publicacao getPublicacao(String titulo) {		
 		for (Publicacao publicacao : this.acervo) {
-			if (publicacao.titulo.equals(titulo)) {
+			if (publicacao.getTitulo().equals(titulo)) {
 				return publicacao;
 			}
 		}

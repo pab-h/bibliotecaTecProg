@@ -20,6 +20,14 @@ public abstract class Cliente {
 		this.emprestimosFeitos = new ArrayList<Emprestimo>();
 	}
 	
+	public boolean temTpsSuficientes(double custo) {
+		return this.tps - custo >= 0;
+	}
+	
+	public boolean maximoEmprestimoAtingido() {
+		return this.emprestimosFeitos.size() > this.maximoEmprestimo;
+	}
+	
 	@Override
 	public String toString() {
 		return this.matricula + "; " + this.nome + "; " + this.tps; 
